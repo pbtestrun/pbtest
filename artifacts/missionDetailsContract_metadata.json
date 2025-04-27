@@ -1,0 +1,2381 @@
+{
+	"compiler": {
+		"version": "0.8.22+commit.4fc1097e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "target",
+						"type": "address"
+					}
+				],
+				"name": "AddressEmptyCode",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "implementation",
+						"type": "address"
+					}
+				],
+				"name": "ERC1967InvalidImplementation",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ERC1967NonPayable",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "EnforcedPause",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ExpectedPause",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "FailedCall",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidInitialization",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotInitializing",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"name": "OwnableInvalidOwner",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "OwnableUnauthorizedAccount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "ReentrancyGuardReentrantCall",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "UUPSUnauthorizedCallContext",
+				"type": "error"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "slot",
+						"type": "bytes32"
+					}
+				],
+				"name": "UUPSUnsupportedProxiableUUID",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint64",
+						"name": "version",
+						"type": "uint64"
+					}
+				],
+				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Unpaused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "implementation",
+						"type": "address"
+					}
+				],
+				"name": "Upgraded",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct missionDetailsContract.missionParameters",
+						"name": "_tokenMission",
+						"type": "tuple"
+					}
+				],
+				"name": "addTokenMissionEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "_new",
+						"type": "bool"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "riskLevel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "energy",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "minTimeNeed",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deathRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "successRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "pointsPerMinute",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "eligibleClasses",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "bool",
+								"name": "enabled",
+								"type": "bool"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct missionDetailsContract.missionDetails",
+						"name": "_mission",
+						"type": "tuple"
+					}
+				],
+				"name": "updateMissionEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct missionDetailsContract.missionParameters",
+						"name": "_oldTokenMission",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct missionDetailsContract.missionParameters",
+						"name": "_newTokenMission",
+						"type": "tuple"
+					}
+				],
+				"name": "updateTokenMissionEvent",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "NFTContract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "UPGRADE_INTERFACE_VERSION",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "riskLevel",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "energy",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minTimeNeed",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deathRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "successRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pointsPerMinute",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "enabled",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "eligibleClasses",
+						"type": "uint256[]"
+					}
+				],
+				"name": "addMission",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"internalType": "struct missionDetailsContract.missionParameters",
+						"name": "_mission",
+						"type": "tuple"
+					}
+				],
+				"name": "addTokenMission",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "classContract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					}
+				],
+				"name": "getMission",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "riskLevel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "energy",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "minTimeNeed",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deathRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "successRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "pointsPerMinute",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "eligibleClasses",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "bool",
+								"name": "enabled",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct missionDetailsContract.missionDetails",
+						"name": "",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "eligibleClasses",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_startIndex",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_endIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "getTokenMissions",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"internalType": "struct missionDetailsContract.missionParameters[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "missionCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "missions",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "missionId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "riskLevel",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "energy",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "minTimeNeed",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "deathRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "successRate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "pointsPerMinute",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "enabled",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "pause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "paused",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "proxiableUUID",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contract",
+						"type": "address"
+					}
+				],
+				"name": "setClassContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_contract",
+						"type": "address"
+					}
+				],
+				"name": "setNFTContract",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_missionId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "startMission",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenMissions",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "missionId",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "riskLevel",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "energy",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "minTimeNeed",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "deathRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "successRate",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "pointsPerMinute",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "eligibleClasses",
+								"type": "uint256[]"
+							},
+							{
+								"internalType": "bool",
+								"name": "enabled",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct missionDetailsContract.missionDetails",
+						"name": "missionInfo",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "classId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "speed",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "attack",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "evasion",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "defense",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct classDetailsContract.nftProperties_1",
+						"name": "nftInfo_1",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "maxLives",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "availableLives",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "energy",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "energyTimestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "mintingTimestamp",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "extra_1",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "extra_2",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "extra_3",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "maxEnergy",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct classDetailsContract.nftProperties_2",
+						"name": "nftInfo_2",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "start",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "end",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "initiateEnd",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "status",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "points",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "requestId",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokenTotalMissions",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unpause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "missionId",
+								"type": "uint256"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "missionId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "riskLevel",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "minTimeNeed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "deathRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "successRate",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "pointsPerMinute",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256[]",
+										"name": "eligibleClasses",
+										"type": "uint256[]"
+									},
+									{
+										"internalType": "bool",
+										"name": "enabled",
+										"type": "bool"
+									}
+								],
+								"internalType": "struct missionDetailsContract.missionDetails",
+								"name": "missionInfo",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "classId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "speed",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "attack",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "evasion",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "defense",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "tokenId",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "status",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_1",
+								"name": "nftInfo_1",
+								"type": "tuple"
+							},
+							{
+								"components": [
+									{
+										"internalType": "uint256",
+										"name": "maxLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "availableLives",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energy",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "energyTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "mintingTimestamp",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_1",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_2",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "extra_3",
+										"type": "uint256"
+									},
+									{
+										"internalType": "uint256",
+										"name": "maxEnergy",
+										"type": "uint256"
+									}
+								],
+								"internalType": "struct classDetailsContract.nftProperties_2",
+								"name": "nftInfo_2",
+								"type": "tuple"
+							},
+							{
+								"internalType": "uint256",
+								"name": "start",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "end",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "initiateEnd",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "status",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "points",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "requestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256[]",
+								"name": "fullFillRequestId",
+								"type": "uint256[]"
+							}
+						],
+						"internalType": "struct missionDetailsContract.missionParameters",
+						"name": "_mission",
+						"type": "tuple"
+					}
+				],
+				"name": "updateTokenMission",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newImplementation",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "upgradeToAndCall",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"errors": {
+				"AddressEmptyCode(address)": [
+					{
+						"details": "There's no code at `target` (it is not a contract)."
+					}
+				],
+				"ERC1967InvalidImplementation(address)": [
+					{
+						"details": "The `implementation` of the proxy is invalid."
+					}
+				],
+				"ERC1967NonPayable()": [
+					{
+						"details": "An upgrade function sees `msg.value > 0` that may be lost."
+					}
+				],
+				"EnforcedPause()": [
+					{
+						"details": "The operation failed because the contract is paused."
+					}
+				],
+				"ExpectedPause()": [
+					{
+						"details": "The operation failed because the contract is not paused."
+					}
+				],
+				"FailedCall()": [
+					{
+						"details": "A call to an address target failed. The target may have reverted."
+					}
+				],
+				"InvalidInitialization()": [
+					{
+						"details": "The contract is already initialized."
+					}
+				],
+				"NotInitializing()": [
+					{
+						"details": "The contract is not initializing."
+					}
+				],
+				"OwnableInvalidOwner(address)": [
+					{
+						"details": "The owner is not a valid owner account. (eg. `address(0)`)"
+					}
+				],
+				"OwnableUnauthorizedAccount(address)": [
+					{
+						"details": "The caller account is not authorized to perform an operation."
+					}
+				],
+				"ReentrancyGuardReentrantCall()": [
+					{
+						"details": "Unauthorized reentrant call."
+					}
+				],
+				"UUPSUnauthorizedCallContext()": [
+					{
+						"details": "The call is from an unauthorized context."
+					}
+				],
+				"UUPSUnsupportedProxiableUUID(bytes32)": [
+					{
+						"details": "The storage `slot` is unsupported as a UUID."
+					}
+				]
+			},
+			"events": {
+				"Initialized(uint64)": {
+					"details": "Triggered when the contract has been initialized or reinitialized."
+				},
+				"Paused(address)": {
+					"details": "Emitted when the pause is triggered by `account`."
+				},
+				"Unpaused(address)": {
+					"details": "Emitted when the pause is lifted by `account`."
+				},
+				"Upgraded(address)": {
+					"details": "Emitted when the implementation is upgraded."
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"custom:oz-upgrades-unsafe-allow": "constructor"
+				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"paused()": {
+					"details": "Returns true if the contract is paused, and false otherwise."
+				},
+				"proxiableUUID()": {
+					"details": "Implementation of the ERC1822 {proxiableUUID} function. This returns the storage slot used by the implementation. It is used to validate the implementation's compatibility when performing an upgrade. IMPORTANT: A proxy pointing at a proxiable contract should not be considered proxiable itself, because this risks bricking a proxy that upgrades to it, by delegating to itself until out of gas. Thus it is critical that this function revert if invoked through a proxy. This is guaranteed by the `notDelegated` modifier."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				},
+				"upgradeToAndCall(address,bytes)": {
+					"custom:oz-upgrades-unsafe-allow-reachable": "delegatecall",
+					"details": "Upgrade the implementation of the proxy to `newImplementation`, and subsequently execute the function call encoded in `data`. Calls {_authorizeUpgrade}. Emits an {Upgraded} event."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"missionDetailsContract.sol": "missionDetailsContract"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts-upgradeable@5.0.0/access/OwnableUpgradeable.sol": {
+			"keccak256": "0xc163fcf9bb10138631a9ba5564df1fa25db9adff73bd9ee868a8ae1858fe093a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9706d43a0124053d9880f6e31a59f31bc0a6a3dc1acd66ce0a16e1111658c5f6",
+				"dweb:/ipfs/QmUFmfowzkRwGtDu36cXV9SPTBHJ3n7dG9xQiK5B28jTf2"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable@5.0.0/proxy/utils/Initializable.sol": {
+			"keccak256": "0x631188737069917d2f909d29ce62c4d48611d326686ba6683e26b72a23bfac0b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7a61054ae84cd6c4d04c0c4450ba1d6de41e27e0a2c4f1bcdf58f796b401c609",
+				"dweb:/ipfs/QmUvtdp7X1mRVyC3CsHrtPbgoqWaXHp3S1ZR24tpAQYJWM"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable@5.0.0/proxy/utils/UUPSUpgradeable.sol": {
+			"keccak256": "0x3f13b947637c4969c0644cab4ef399cdc4b67f101463b8775c5a43b118558e53",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c6683e6ade6985d394d32baaef5eea0d8b9ff0b3eca86ae413d6cdde114a9930",
+				"dweb:/ipfs/QmdBE8T1BTddZxpdECMsb3KiCFyjNWmxcCddYrWFTXmWPj"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable@5.0.0/utils/ContextUpgradeable.sol": {
+			"keccak256": "0x72d47aebad24c59f6e78d0c3e827440173419a333fd910a37fa1e532c98f7e4c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://dc8d1401a44d84ede55b6641d58f63f12a83aecb0816d577d947392b55a6b43b",
+				"dweb:/ipfs/QmUskJ7JGzg17MAgRoZfZ3p7P9uucsgm2fKyXQvxdLThLE"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable@5.0.0/utils/PausableUpgradeable.sol": {
+			"keccak256": "0x92915b7f7f642c6be3f65bfd1522feb5d5b6ef25f755f4dbb51df32c868f2f97",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://85ad36d5cc7e190e1ee6c94b24659bc3a31396c4c36b6ffa6a509e10661f8007",
+				"dweb:/ipfs/QmPFyc4zMh2zo6YWZt25gjm3YdR2hg6wGETaWw256fMmJJ"
+			]
+		},
+		"@openzeppelin/contracts-upgradeable@5.0.0/utils/ReentrancyGuardUpgradeable.sol": {
+			"keccak256": "0xb44e086e941292cdc7f440de51478493894ef0b1aeccb0c4047445919f667f74",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://942dad22fbdc1669f025540ba63aa3ccfad5f8458fc5d4525b31ebf272e7af45",
+				"dweb:/ipfs/Qmdo4X2M82aM3AMoW2kf2jhYkSCyC4T1pHNd6obdsDFnAB"
+			]
+		},
+		"@openzeppelin/contracts/interfaces/IERC1967.sol": {
+			"keccak256": "0xb25a4f11fa80c702bf5cd85adec90e6f6f507f32f4a8e6f5dbc31e8c10029486",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6917f8a323e7811f041aecd4d9fd6e92455a6fba38a797ac6f6e208c7912b79d",
+				"dweb:/ipfs/QmShuYv55wYHGi4EFkDB8QfF7ZCHoKk2efyz3AWY1ExSq7"
+			]
+		},
+		"@openzeppelin/contracts/interfaces/draft-IERC1822.sol": {
+			"keccak256": "0xc42facb5094f2f35f066a7155bda23545e39a3156faef3ddc00185544443ba7d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d3b36282ab029b46bd082619a308a2ea11c309967b9425b7b7a6eb0b0c1c3196",
+				"dweb:/ipfs/QmP2YVfDB2FoREax3vJu7QhDnyYRMw52WPrCD4vdT2kuDA"
+			]
+		},
+		"@openzeppelin/contracts/proxy/ERC1967/ERC1967Utils.sol": {
+			"keccak256": "0x8decfa54cec979c824b044b8128cd91d713f72c71fd7dfa54974624d8c949898",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://271f914261a19d87117a777e0924ada545c16191ef9b00cc40b0134fc14ebc70",
+				"dweb:/ipfs/QmdvVNWHGHQrGGPonZJs5NuzTevTjZRM2zayKrDJf7WBA2"
+			]
+		},
+		"@openzeppelin/contracts/proxy/beacon/IBeacon.sol": {
+			"keccak256": "0xc59a78b07b44b2cf2e8ab4175fca91e8eca1eee2df7357b8d2a8833e5ea1f64c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5aa4f07e65444784c29cd7bfcc2341b34381e4e5b5da9f0c5bd00d7f430e66fa",
+				"dweb:/ipfs/QmWRMh4Q9DpaU9GvsiXmDdoNYMyyece9if7hnfLz7uqzWM"
+			]
+		},
+		"@openzeppelin/contracts/utils/Address.sol": {
+			"keccak256": "0xaaa1d17c1129b127a4a401db2fbd72960e2671474be3d08cae71ccdc42f7624c",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cb2f27cd3952aa667e198fba0d9b7bcec52fbb12c16f013c25fe6fb52b29cc0e",
+				"dweb:/ipfs/QmeuohBFoeyDPZA9JNCTEDz3VBfBD4EABWuWXVhHAuEpKR"
+			]
+		},
+		"@openzeppelin/contracts/utils/Errors.sol": {
+			"keccak256": "0x6afa713bfd42cf0f7656efa91201007ac465e42049d7de1d50753a373648c123",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba1d02f4847670a1b83dec9f7d37f0b0418d6043447b69f3a29a5f9efc547fcf",
+				"dweb:/ipfs/QmQ7iH2keLNUKgq2xSWcRmuBE5eZ3F5whYAkAGzCNNoEWB"
+			]
+		},
+		"@openzeppelin/contracts/utils/StorageSlot.sol": {
+			"keccak256": "0xcf74f855663ce2ae00ed8352666b7935f6cddea2932fdf2c3ecd30a9b1cd0e97",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9f660b1f351b757dfe01438e59888f31f33ded3afcf5cb5b0d9bf9aa6f320a8b",
+				"dweb:/ipfs/QmarDJ5hZEgBtCmmrVzEZWjub9769eD686jmzb2XpSU1cM"
+			]
+		},
+		"interfaces/IClassDetails.sol": {
+			"keccak256": "0x4395aa4093f7fc4617d46a0e8e436eb2bfa8ce174f72dd540ad1d8a9a3d9f8b9",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://8a4381449fb194cb1f924ba08782a3d6faac2ed9fe904aaa91efb79823429031",
+				"dweb:/ipfs/QmViLNoM6NiZcc96HYut4Jx93uvcFKecpEr6YNAAXvX5Me"
+			]
+		},
+		"interfaces/INFTContract.sol": {
+			"keccak256": "0xb918b2ba3c5328afddcdf8091e136c68b73e9f55a97adceb494bb5e4ca91b42a",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://35a47eb86321a00b8eb6404d4f7d1b3876f6f480c193034f684997c35d055888",
+				"dweb:/ipfs/QmSMoyTu1gPGsPrz4hMysKiG4TiTwRhGRn8wrofmZBx9xj"
+			]
+		},
+		"missionDetailsContract.sol": {
+			"keccak256": "0xea429614854168d30a0d2363553f8188c31fffc6ff9e9026de5890d58b0095e1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34e50d8c9e1b1cb931c7fdada11cc878de36990741041d1c27496e0789dc6589",
+				"dweb:/ipfs/QmVE48dFupR29yEgvgMQFF68vNL5VqRbQ9KLeZSyw98ynU"
+			]
+		}
+	},
+	"version": 1
+}
