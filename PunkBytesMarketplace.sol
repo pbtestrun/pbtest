@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
-import {ERC721Upgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/token/ERC721/ERC721Upgradeable.sol";
-import {ERC721EnumerableUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
-import {ERC721URIStorageUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-import {ERC721PausableUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
-import {ERC721BurnableUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
-
 import {Initializable} from "@openzeppelin/contracts-upgradeable@5.0.0/proxy/utils/Initializable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/access/OwnableUpgradeable.sol";
+import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/utils/PausableUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/proxy/utils/UUPSUpgradeable.sol";
 import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable@5.0.0/utils/ReentrancyGuardUpgradeable.sol";
 
@@ -19,20 +14,22 @@ import "./interfaces/IClassDetails.sol";
 import "./interfaces/IMissionDetails.sol";
 import "./interfaces/INFTContract.sol";
 
+import "./interfaces/IClassDetails.sol";
+import "./interfaces/IMissionDetails.sol";
+import "./interfaces/INFTContract.sol";
+
 abstract contract IERC20Extended is IERC20 {
     function decimals() public view virtual returns (uint8);
 }
 
-contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, 
-         ERC721PausableUpgradeable, OwnableUpgradeable, ERC721BurnableUpgradeable, UUPSUpgradeable, ReentrancyGuardUpgradeable {
+contract PunkBytesMarketplace is Initializable, OwnableUpgradeable, PausableUpgradeable, UUPSUpgradeable, ReentrancyGuardUpgradeable {
 
     using SafeERC20 for IERC20Extended;
 
-    INFTContract public nftContract; // PunkBytesContract NFT Interactions
-    INFTContract public punkbytesContract; // PunkBytesContract Points
-    IERC20Extended public currency; // Same PunkBytesContract mintCurrency
+    INFTContract public nftContract; // PunkBytesContract NFT Interactions and Points
+    IERC20Extended public currency; // PunkBytesContract mintCurrency used for trading
 
-    address public feeRecipient; // For marketplace fees
+    address public feeRecipient; // Recipient of marketplace fees
     uint256 public feeBps; // Fee in basis points 2500 = 25%
     uint256 public constant BASIS_POINTS = 10000;
 
@@ -105,35 +102,6 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
     // Facilitates fast removals of specific offers from a wallet’s bids
     mapping(address => mapping(uint256 => uint256)) public walletOfferIdToIndex;
 
-    // Events
-
-    // event Listed(address indexed seller, uint256 indexed tokenId, uint256 price);
-    // event Purchased(address indexed buyer, uint256 indexed tokenId, uint256 price, uint256 fee);
-    // event OfferCreated(uint256 indexed offerId, address indexed bidder, uint256 price);
-
-    // event OfferAccepted(
-    //     uint256 indexed offerId,
-    //     address indexed bidder,
-    //     address indexed seller,
-    //     uint256 tokenId,
-    //     uint256 price,
-    //     uint256 fee
-    // );
-
-    // event OfferCanceled(uint256 indexed offerId, address indexed bidder);
-    // event EveryOfferCanceled(address indexed bidder);
-    // event ownerCanceledOffers();
-
-    // event Canceled(address indexed seller, uint256 indexed tokenId);
-    // event ownerCanceledListings(address indexed owner);
-
-    // event FeeUpdated(uint256 newFeeBps);
-    // event FeeRecipientUpdated(address newFeeRecipient);
-    // event PointsUpdated(uint256 newBuyerPoints, uint256 newSellerPoints);
-
-    // event Paused(address account);
-    // event Unpaused(address account);
-
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() { _disableInitializers(); }
 
@@ -151,10 +119,6 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         feeBps = 2500;
         buyerPoints = 5000;
         sellerPoints = 500;
-
-        // require(_currency != address(0), "Invalid currency address");
-        // require(_feeRecipient != address(0), "Invalid fee recipient address");
-        // require(_feeBps <= 10000, "Fee too high");
     }
 
     function list(uint256 _tokenId, uint256 _price) external whenNotPaused nonReentrant {
@@ -186,8 +150,6 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
 
         // Interaction
         nftContract.safeTransferFrom(msg.sender, address(this), _tokenId);
-
-        // emit Listed(msg.sender, _tokenId, _price);
     }
 
     function buy(uint256 _tokenId) external whenNotPaused nonReentrant {
@@ -202,36 +164,20 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         uint256 fee = (listing.price * feeBps) / BASIS_POINTS;
         uint256 sellerProceeds = listing.price - fee;
 
+        listings[_tokenId].active = false;
+        currency.safeTransferFrom(msg.sender, listing.seller, sellerProceeds);
+
         // External Interactions
         currency.safeTransferFrom(msg.sender, listing.seller, sellerProceeds);
         if (fee > 0) {
             currency.safeTransferFrom(msg.sender, feeRecipient, fee);
         }
 
-        listings[_tokenId].active = false; // State update
         nftContract.safeTransferFrom(address(this), msg.sender, _tokenId);
-        punkbytesContract.assignPoints(msg.sender, buyerPoints);
-        punkbytesContract.assignPoints(listing.seller, sellerPoints);
+        nftContract.assignPoints(msg.sender, buyerPoints);
+        nftContract.assignPoints(listing.seller, sellerPoints);
 
-        // Remove from listed token IDs array
-        uint256 index = tokenIdToIndex[_tokenId];
-        if (listedTokenIds.length > 1) {
-            listedTokenIds[index] = listedTokenIds[listedTokenIds.length - 1];
-            tokenIdToIndex[listedTokenIds[index]] = index;
-        }
-        listedTokenIds.pop();
-        delete tokenIdToIndex[_tokenId];
-
-        // Remove from wallet to token ID mapping
-        uint256 walletIndex = walletTokenIdToIndex[listing.seller][_tokenId];
-        if (walletToTokenIds[listing.seller].length > 1) {
-            walletToTokenIds[listing.seller][walletIndex] = walletToTokenIds[listing.seller][walletToTokenIds[listing.seller].length - 1];
-            walletTokenIdToIndex[listing.seller][walletToTokenIds[listing.seller][walletIndex]] = walletIndex;
-        }
-        walletToTokenIds[listing.seller].pop();
-        delete walletTokenIdToIndex[listing.seller][_tokenId];
-
-        // emit Purchased(msg.sender, _tokenId, listing.price, fee);
+        _removeListing(_tokenId, listing.seller);
     }
 
     function cancel(uint256 _tokenId) external whenNotPaused nonReentrant {
@@ -241,31 +187,10 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         require(listing.active, "Not listed");
         require(listing.seller == msg.sender, "Not seller");
 
-        // External interaction
+        listings[_tokenId].active = false;
         nftContract.safeTransferFrom(address(this), msg.sender, _tokenId);
 
-        // State updates (effects)
-        listings[_tokenId].active = false;
-
-        // Remove from listed token IDs array
-        uint256 index = tokenIdToIndex[_tokenId];
-        if (listedTokenIds.length > 1) {
-            listedTokenIds[index] = listedTokenIds[listedTokenIds.length - 1];
-            tokenIdToIndex[listedTokenIds[index]] = index;
-        }
-        listedTokenIds.pop();
-        delete tokenIdToIndex[_tokenId];
-
-        // Remove from wallet to token ID mapping
-        uint256 walletIndex = walletTokenIdToIndex[msg.sender][_tokenId];
-        if (walletToTokenIds[msg.sender].length > 1) {
-            walletToTokenIds[msg.sender][walletIndex] = walletToTokenIds[msg.sender][walletToTokenIds[msg.sender].length - 1];
-            walletTokenIdToIndex[msg.sender][walletToTokenIds[msg.sender][walletIndex]] = walletIndex;
-        }
-        walletToTokenIds[msg.sender].pop();
-        delete walletTokenIdToIndex[msg.sender][_tokenId];
-
-        // emit Canceled(msg.sender, _tokenId);
+        _removeListing(_tokenId, msg.sender);
     }
 
     // Collection offers
@@ -289,7 +214,6 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         walletOfferIdToIndex[msg.sender][offerId] = walletToOfferIds[msg.sender].length - 1;
 
         currency.safeTransferFrom(msg.sender, address(this), _price);
-        // emit OfferCreated(offerId, msg.sender, _price);
     }
 
     /// @notice accepts a collection-wide offer for a specific NFT
@@ -301,12 +225,16 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         Offer memory offer = offers[_offerId];
         require(offer.active, "Offer not active");
         require(nftContract.ownerOf(_tokenId) == msg.sender, "Not token owner");
-        require(nftContract.getApproved(_tokenId) == address(this) || nftContract.isApprovedForAll(msg.sender, address(this)), "Marketplace not approved");
+
+        require(
+            nftContract.getApproved(_tokenId) == address(this) ||
+            nftContract.isApprovedForAll(msg.sender, address(this)), 
+            "Marketplace not approved"
+        );
 
         uint256 fee = (offer.price * feeBps) / BASIS_POINTS;
         uint256 sellerProceeds = offer.price - fee;
 
-        // Marks offer as Inactive, transfers funds, tranfers NFT and assigns points
         offers[_offerId].active = false;
 
         currency.safeTransfer(msg.sender, sellerProceeds);
@@ -315,27 +243,10 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         }
 
         nftContract.safeTransferFrom(msg.sender, offer.bidder, _tokenId);
-        punkbytesContract.assignPoints(offer.bidder, buyerPoints);
-        punkbytesContract.assignPoints(msg.sender, sellerPoints);
+        nftContract.assignPoints(offer.bidder, buyerPoints);
+        nftContract.assignPoints(msg.sender, sellerPoints);
 
-        // Readjust storage data
-        uint256 index = offerIdToIndex[_offerId];
-        if (activeOfferIds.length > 1) {
-            activeOfferIds[index] = activeOfferIds[activeOfferIds.length - 1];
-            offerIdToIndex[activeOfferIds[index]] = index;
-        }
-        activeOfferIds.pop();
-        delete offerIdToIndex[_offerId];
-
-        uint256 walletIndex = walletOfferIdToIndex[offer.bidder][_offerId];
-        if (walletToOfferIds[offer.bidder].length > 1) {
-            walletToOfferIds[offer.bidder][walletIndex] = walletToOfferIds[offer.bidder][walletToOfferIds[offer.bidder].length - 1];
-            walletOfferIdToIndex[offer.bidder][walletToOfferIds[offer.bidder][walletIndex]] = walletIndex;
-        }
-        walletToOfferIds[offer.bidder].pop();
-        delete walletOfferIdToIndex[offer.bidder][_offerId];
-
-        // emit OfferAccepted(_offerId, offer.bidder, msg.sender, _tokenId, offer.price, fee);
+        _removeOffer(_offerId, offer.bidder);
     }
 
     /// @notice cancels a specific collection-wide offer
@@ -348,26 +259,9 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
         require(offer.bidder == msg.sender, "Not bidder");
 
         offers[_offerId].active = false;
-
-        // Return funds and clean up storage
         currency.safeTransfer(msg.sender, offer.price);
 
-        uint256 index = offerIdToIndex[_offerId];
-        if (activeOfferIds.length > 1) {
-            activeOfferIds[index] = activeOfferIds[activeOfferIds.length - 1];
-            offerIdToIndex[activeOfferIds[index]] = index;
-        }
-        activeOfferIds.pop();
-        delete offerIdToIndex[_offerId];
-
-        uint256 walletIndex = walletOfferIdToIndex[msg.sender][_offerId];
-        if (walletToOfferIds[msg.sender].length > 1) {
-            walletToOfferIds[msg.sender][walletIndex] = walletToOfferIds[msg.sender][walletToOfferIds[msg.sender].length - 1];
-            walletOfferIdToIndex[msg.sender][walletToOfferIds[msg.sender][walletIndex]] = walletIndex;
-        }
-        walletToOfferIds[msg.sender].pop();
-        delete walletOfferIdToIndex[msg.sender][_offerId];
-        // emit OfferCanceled(_offerId, msg.sender);
+        _removeOffer(_offerId, msg.sender);
     }
 
     /// @notice Cancels all collection-wide offers made by the caller
@@ -375,6 +269,7 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
     function cancelEveryOffer() external whenNotPaused nonReentrant {
 
         uint256[] memory offerIds = walletToOfferIds[msg.sender];
+        // uint256 length = offerIds.length;
 
         for (uint256 i = 0; i < offerIds.length; i++) {
             uint256 offerId = offerIds[i];
@@ -383,30 +278,13 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
             if (offer.active) {
                 offers[offerId].active = false;
                 currency.safeTransfer(msg.sender, offer.price);
-                uint256 index = offerIdToIndex[offerId];
-
-                if (activeOfferIds.length > 1) {
-                    activeOfferIds[index] = activeOfferIds[activeOfferIds.length - 1];
-                    offerIdToIndex[activeOfferIds[index]] = index;
-                }
-                activeOfferIds.pop();
-                delete offerIdToIndex[offerId];
+                _removeOffer(offerId, msg.sender);
             }
         }
 
         // Clear walletToOfferIds and walletOfferIdToIndex
-        delete walletToOfferIds[msg.sender];
-        // Implicitly clears walletOfferIdToIndex
-
-        // emit EveryOfferCanceled(msg.sender);
-    }
-
-    function getSingleListing(uint256 _tokenId) external view returns (Listing memory) {
-        return listings[_tokenId];
-    }
-
-    function isListed(uint256 tokenId) external view returns (bool) {
-        return listings[tokenId].active;
+            delete walletToOfferIds[msg.sender];
+            // Implicitly clears walletOfferIdToIndex
     }
 
     /// @notice returns all active listings in the marketplace
@@ -418,7 +296,6 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
 
         for (uint256 i = 0; i < listedTokenIds.length; i++) {
             uint256 tokenId = listedTokenIds[i];
-
             activeListings[i] = ListingDetails({
                 tokenId: tokenId,
                 seller: listings[tokenId].seller,
@@ -493,14 +370,11 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
 
             if (listing.active) {
 
-                // External Interaction
                 nftContract.safeTransferFrom(
                     address(this),
                     listing.seller,
                     tokenId
                 );
-
-                // Store for state updates
                 tokenIdsToCancel[cancelCount] = tokenId;
                 sellers[cancelCount] = listing.seller;
                 cancelCount++;
@@ -513,30 +387,8 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
             address seller = sellers[i];
 
             listings[tokenId].active = false;
-
-            // Remove from listed token IDs array
-            uint256 index = tokenIdToIndex[tokenId];
-            if (listedTokenIds.length > 1) {
-                listedTokenIds[index] = listedTokenIds[listedTokenIds.length - 1];
-                tokenIdToIndex[listedTokenIds[index]] = index;
-            }
-            listedTokenIds.pop();
-            delete tokenIdToIndex[tokenId];
-
-            // Remove from wallet to token ID mapping
-            uint256 walletIndex = walletTokenIdToIndex[seller][tokenId];
-            if (walletToTokenIds[seller].length > 1) {
-                walletToTokenIds[seller][walletIndex] = walletToTokenIds[seller][
-                    walletToTokenIds[seller].length - 1];
-                walletTokenIdToIndex[seller][walletToTokenIds[seller][walletIndex]] = walletIndex;
-            }
-            walletToTokenIds[seller].pop();
-            delete walletTokenIdToIndex[seller][tokenId];
-
-            // emit Canceled(seller, tokenId);
+            _removeListing(tokenId, seller);
         }
-
-        // emit ownerCanceledListings(msg.sender);
     }
 
     /// @notice cancels all active collection-wide offers (owner only)
@@ -544,13 +396,13 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
     /// @param batchSize the number of offers to process in that specific batch
     
     function ownerCancelEveryOffer(uint256 start, uint256 batchSize) external onlyOwner nonReentrant {
+
         require(start < activeOfferIds.length, "Invalid start index");
         uint256 end = start + batchSize < activeOfferIds.length ? start + batchSize : activeOfferIds.length;
 
         // Store state changes until after external calls (temp arrays)
         uint256[] memory offerIdsToCancel = new uint256[](end - start);
         address[] memory bidders = new address[](end - start);
-        uint256[] memory prices = new uint256[](end - start);
         uint256 cancelCount = 0;
 
         // Perform Checks and External Interactions
@@ -560,16 +412,13 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
 
             if (offer.active) {
 
-                // External Interaction
                 currency.safeTransfer(
                     offer.bidder,
                     offer.price
                 );
 
-                // Store for state updates
                 offerIdsToCancel[cancelCount] = offerId;
                 bidders[cancelCount] = offer.bidder;
-                prices[cancelCount] = offer.price;
                 cancelCount++;
             }
         }
@@ -579,104 +428,93 @@ contract PunkBytesMarketplace is Initializable, ERC721Upgradeable, ERC721Enumera
             uint256 offerId = offerIdsToCancel[i];
             address bidder = bidders[i];
 
-            // Mark offer as inactive
             offers[offerId].active = false;
-
-            // Remove from activeOfferIds array
-            uint256 index = offerIdToIndex[offerId];
-            if (activeOfferIds.length > 1) {
-                activeOfferIds[index] = activeOfferIds[activeOfferIds.length - 1];
-                offerIdToIndex[activeOfferIds[index]] = index;
-            }
-            activeOfferIds.pop();
-            delete offerIdToIndex[offerId];
-
-            // Remove from wallet to offer ID mapping
-            uint256 walletIndex = walletOfferIdToIndex[bidder][offerId];
-            if (walletToOfferIds[bidder].length > 1) {
-                walletToOfferIds[bidder][walletIndex] = walletToOfferIds[bidder][walletToOfferIds[bidder].length - 1];
-                walletOfferIdToIndex[bidder][walletToOfferIds[bidder][walletIndex]] = walletIndex;
-            }
-            walletToOfferIds[bidder].pop();
-            delete walletOfferIdToIndex[bidder][offerId];
-
-            // emit OfferCanceled(offerId, bidder);
+            _removeOffer(offerId, bidder);
         }
-
-        // emit ownerCanceledOffers();
     }
 
     function setPoints(uint256 _newBuyerPoints, uint256 _newSellerPoints) external onlyOwner {
-
         require(_newBuyerPoints > 0, "Buyer points must be greater than zero");
         require(_newSellerPoints > 0, "Seller points must be greater than zero");
-
         buyerPoints = _newBuyerPoints;
         sellerPoints = _newSellerPoints;
-
-        // emit PointsUpdated(_newBuyerPoints, _newSellerPoints);
     }
 
     // Update fee percentage
     function setFeeBps(uint256 _newFeeBps) external onlyOwner {
         require(_newFeeBps <= BASIS_POINTS, "Fee too high");
         feeBps = _newFeeBps;
-        // emit FeeUpdated(_newFeeBps);
     }
 
     // Update fee recipient
     function setFeeRecipient(address _newFeeRecipient) external onlyOwner {
         require(_newFeeRecipient != address(0), "Invalid address");
         feeRecipient = _newFeeRecipient;
-        // emit FeeRecipientUpdated(_newFeeRecipient);
     }
 
     // Set both NFT related contracts
     function setNFTContract(address payable _nftContract) external onlyOwner {
+        require(_nftContract != address(0), "Invalid address");
         nftContract = INFTContract(_nftContract);
-        punkbytesContract = INFTContract(_nftContract);
+    }
+
+    function setCurrency(address _currency) external onlyOwner {
+        require(_currency != address(0), "Invalid address");
+        currency = IERC20Extended(_currency);
+    }
+
+    function getSingleListing(uint256 _tokenId) external view returns (Listing memory) {
+        return listings[_tokenId];
+    }
+
+    function isListed(uint256 tokenId) external view returns (bool) {
+        return listings[tokenId].active;
     }
 
     function pause() external onlyOwner { _pause(); }
     function unpause() external onlyOwner { _unpause(); }
 
-    // the following functions are overrides required by Solidity
+    function _removeListing(uint256 _tokenId, address _seller) private {
+        uint256 index = tokenIdToIndex[_tokenId];
+        if (listedTokenIds.length > 1) {
+            listedTokenIds[index] = listedTokenIds[listedTokenIds.length - 1];
+            tokenIdToIndex[listedTokenIds[index]] = index;
+        }
+        listedTokenIds.pop();
+        delete tokenIdToIndex[_tokenId];
 
-    function _update(address to, uint256 tokenId, address auth) internal override (
-
-        ERC721Upgradeable,
-        ERC721EnumerableUpgradeable,
-        ERC721PausableUpgradeable
-
-    ) returns (address) { return super._update(to, tokenId, auth); }
-
-    function internalBurn(uint256 _tokenId) internal {
-        _burn(_tokenId);
+        uint256 walletIndex = walletTokenIdToIndex[_seller][_tokenId];
+        if (walletToTokenIds[_seller].length > 1) {
+            walletToTokenIds[_seller][walletIndex] = walletToTokenIds[_seller][walletToTokenIds[_seller].length - 1];
+            walletTokenIdToIndex[_seller][walletToTokenIds[_seller][walletIndex]] = walletIndex;
+        }
+        walletToTokenIds[_seller].pop();
+        delete walletTokenIdToIndex[_seller][_tokenId];
     }
 
-    function ownerBurn(uint256 _tokenId) public onlyOwner {
-        _burn(_tokenId);
+    function _removeOffer(uint256 _offerId, address _bidder) private {
+        uint256 index = offerIdToIndex[_offerId];
+        if (activeOfferIds.length > 1) {
+            activeOfferIds[index] = activeOfferIds[activeOfferIds.length - 1];
+            offerIdToIndex[activeOfferIds[index]] = index;
+        }
+        activeOfferIds.pop();
+        delete offerIdToIndex[_offerId];
+
+        uint256 walletIndex = walletOfferIdToIndex[_bidder][_offerId];
+        if (walletToOfferIds[_bidder].length > 1) {
+            walletToOfferIds[_bidder][walletIndex] = walletToOfferIds[_bidder][walletToOfferIds[_bidder].length - 1];
+            walletOfferIdToIndex[_bidder][walletToOfferIds[_bidder][walletIndex]] = walletIndex;
+        }
+        walletToOfferIds[_bidder].pop();
+        delete walletOfferIdToIndex[_bidder][_offerId];
     }
 
-    function tokenURI(uint256 tokenId) public view override (ERC721Upgradeable, ERC721URIStorageUpgradeable) returns (string memory) {
-        return super.tokenURI(tokenId);
-    }
-
-    function _increaseBalance(address account, uint128 value) internal override (ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-        super._increaseBalance(account, value);
-    }
-
-    function supportsInterface(bytes4 interfaceId) public view override (ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable) returns (bool) {
-        return super.supportsInterface(interfaceId);
-    }
-
-    // Required for receiving NFTs
     function onERC721Received(address, address, uint256, bytes calldata) external pure returns (bytes4) {
         return this.onERC721Received.selector;
     }
 
-    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {} // override required
     
-    // Gap for future upgrades
-    uint256[50] private __gap;
+    uint256[50] private __gap; // gap for future upgrades
 }

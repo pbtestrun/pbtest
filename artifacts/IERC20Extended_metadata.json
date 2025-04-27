@@ -242,7 +242,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"classDetailsContract.sol": "IERC20Extended"
+			"PunkBytesMarketplace.sol": "IERC20Extended"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -384,6 +384,14 @@
 				"dweb:/ipfs/QmUNfSBdoVtjhETaUJCYcaC7pTMgbhht926tJ2uXJbiVd3"
 			]
 		},
+		"@openzeppelin/contracts@5.0.0/token/ERC721/IERC721.sol": {
+			"keccak256": "0x5ef46daa3b58ef2702279d514780316efaa952915ee1aa3396f041ee2982b0b4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f8f2a76e23b02fc69e8cd24c3cb47da6c7af3a2d6c3a382f8ac25c6e094ade7",
+				"dweb:/ipfs/QmPV4ZS4tPVv4mTCf9ejyZ1ai57EEibDRj7mN2ARDCLV5n"
+			]
+		},
 		"@openzeppelin/contracts@5.0.0/utils/Address.sol": {
 			"keccak256": "0xaf28a975a78550e45f65e559a3ad6a5ad43b9b8a37366999abd1b7084eb70721",
 			"license": "MIT",
@@ -392,12 +400,36 @@
 				"dweb:/ipfs/QmRaydGr8BTHs1kvaZfsNU69pKzUAGFrvABn1KiRSbE51y"
 			]
 		},
-		"classDetailsContract.sol": {
-			"keccak256": "0xc36a02d0ea357df36aae6809202a402a7c5ec1c4696fccfb5296d757cdc636d5",
+		"@openzeppelin/contracts@5.0.0/utils/introspection/IERC165.sol": {
+			"keccak256": "0x4296879f55019b23e135000eb36896057e7101fb7fb859c5ef690cf14643757b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6801f61621be2a8bde129c8604ee6ffd57efc9ce0b981f6f26decd16450d812a",
-				"dweb:/ipfs/QmcVZmCM8C5rqN3b9A44ZACfiaV9oePe9dhEmg8d69rhbV"
+				"bzz-raw://87b3541437c8c443ccd36795e56a338ed12855eec17f8da624511b8d1a7e14df",
+				"dweb:/ipfs/QmeJQCtZrQjtJLr6u7ZHWeH3pBnjtLWzvRrKViAi7UZqxL"
+			]
+		},
+		"PunkBytesMarketplace.sol": {
+			"keccak256": "0xe40c8f59835641503b82e5c7d710d2037491abbf60a2d1c6f6ac6d46fa04f711",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7803476c6c10ad2f317b953ee6765a53a4c44f4a89fe1cea5e7af7f8da18bc58",
+				"dweb:/ipfs/QmYvkHaWY5WrX9PBVjtutJ9DdD3rMCaXUrhMNU6TwDzEhc"
+			]
+		},
+		"interfaces/IClassDetails.sol": {
+			"keccak256": "0x4395aa4093f7fc4617d46a0e8e436eb2bfa8ce174f72dd540ad1d8a9a3d9f8b9",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://8a4381449fb194cb1f924ba08782a3d6faac2ed9fe904aaa91efb79823429031",
+				"dweb:/ipfs/QmViLNoM6NiZcc96HYut4Jx93uvcFKecpEr6YNAAXvX5Me"
+			]
+		},
+		"interfaces/IMissionDetails.sol": {
+			"keccak256": "0xc2befb1062c018d3063021e1ca0e3e6cc36fd760ffde452728d4a06c8c951ac5",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://a1b80b95482b0339a490c61f1d07f3496085aac1f50809468fc00f01162a7fe1",
+				"dweb:/ipfs/QmTKxsDwzzunxSjMieUmu1i8bGFUZKj1mtJ5vowXD6KVJr"
 			]
 		},
 		"interfaces/INFTContract.sol": {

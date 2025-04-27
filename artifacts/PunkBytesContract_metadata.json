@@ -406,44 +406,6 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "requestId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256[]",
-						"name": "randomWords",
-						"type": "uint256[]"
-					}
-				],
-				"name": "RequestFulfilled",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "requestId",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint32",
-						"name": "numWords",
-						"type": "uint32"
-					}
-				],
-				"name": "RequestSent",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "from",
@@ -871,19 +833,6 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getMintedTokenIds",
-				"outputs": [
-					{
-						"internalType": "uint256[]",
-						"name": "tokenIds",
-						"type": "uint256[]"
 					}
 				],
 				"stateMutability": "view",
@@ -2194,7 +2143,7 @@
 				},
 				"withdrawFundsERC20(address,uint256)": {
 					"params": {
-						"amount": "amount withdrawn",
+						"amount": "the amount withdrawn",
 						"erc20": "ERC20 address"
 					}
 				}
@@ -2516,11 +2465,11 @@
 			]
 		},
 		"PunkBytesContract.sol": {
-			"keccak256": "0x3ee9f878821dfbd7ebc94b07d694a9588909519586462379a2ce60ff84a75a18",
+			"keccak256": "0xa4cbc442b473b952d96e96a364cae4552fe075c442a3ffdc2e64078e375487e6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e08ee41c3df3f5d314be05478be0358496b9e31db4039ab119943ad2fff75aa1",
-				"dweb:/ipfs/QmaSzg9DKimEQeTsXmCckTYmbXCMXTNSGbwPBK56PiprTR"
+				"bzz-raw://4aac00429e5902a8f051fe1bacb52c11a946609c1cba83aac222d945cfbc8665",
+				"dweb:/ipfs/QmWnddHC36XWb6QEE5GW1YGZFgQvWh2iqkAoNcekCCPr3f"
 			]
 		},
 		"VRF/IVRFCoordinatorV2Plus.sol": {
