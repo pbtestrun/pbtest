@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.22+commit.4fc1097e"
+		"version": "0.8.24+commit.e11b9ed9"
 	},
 	"language": "Solidity",
 	"output": {
@@ -244,7 +244,7 @@
 		"compilationTarget": {
 			"PunkBytesMarketplace.sol": "IERC20Extended"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -409,11 +409,11 @@
 			]
 		},
 		"PunkBytesMarketplace.sol": {
-			"keccak256": "0xe40c8f59835641503b82e5c7d710d2037491abbf60a2d1c6f6ac6d46fa04f711",
+			"keccak256": "0x4b587026e67647bdc1076479c8e3c1a658b2c47541eeb2eb01d7608f9f08265f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7803476c6c10ad2f317b953ee6765a53a4c44f4a89fe1cea5e7af7f8da18bc58",
-				"dweb:/ipfs/QmYvkHaWY5WrX9PBVjtutJ9DdD3rMCaXUrhMNU6TwDzEhc"
+				"bzz-raw://60a563cfb72da4138a4cb55a732985e4904b6c7c61a6bdcfeb0367b0da85c8cd",
+				"dweb:/ipfs/QmSDurvpQmLjngePz6GKecFNYYQSryyuB6S267bHofKAN8"
 			]
 		},
 		"interfaces/IClassDetails.sol": {

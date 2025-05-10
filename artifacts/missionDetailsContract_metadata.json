@@ -2369,11 +2369,11 @@
 			]
 		},
 		"missionDetailsContract.sol": {
-			"keccak256": "0xea429614854168d30a0d2363553f8188c31fffc6ff9e9026de5890d58b0095e1",
+			"keccak256": "0xca67659c042f21224f5f9f41675faeb68f345a3803b0d95699f72bf955f3ff2a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://34e50d8c9e1b1cb931c7fdada11cc878de36990741041d1c27496e0789dc6589",
-				"dweb:/ipfs/QmVE48dFupR29yEgvgMQFF68vNL5VqRbQ9KLeZSyw98ynU"
+				"bzz-raw://bc2678d10e27cf9f80f3f3ddbe740188de9e31ff4464051bb0e10949d72c5aca",
+				"dweb:/ipfs/QmYXK7RGcemBzEbw8iPSQFn4SfsvpzqAEXN4gjS94eyTc8"
 			]
 		}
 	},

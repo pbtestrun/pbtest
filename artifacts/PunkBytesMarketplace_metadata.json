@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.22+commit.4fc1097e"
+		"version": "0.8.24+commit.e11b9ed9"
 	},
 	"language": "Solidity",
 	"output": {
@@ -148,12 +148,131 @@
 				"inputs": [
 					{
 						"indexed": false,
+						"internalType": "uint256",
+						"name": "count",
+						"type": "uint256"
+					}
+				],
+				"name": "AllListingsCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "listingId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "CharacterBought",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "listingId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "CharacterListed",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
 						"internalType": "uint64",
 						"name": "version",
 						"type": "uint64"
 					}
 				],
 				"name": "Initialized",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "listingId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingCancelled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "listingId",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "newPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "ListingUpdated",
 				"type": "event"
 			},
 			{
@@ -244,7 +363,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_offerId",
+						"name": "_listingId",
 						"type": "uint256"
 					},
 					{
@@ -253,39 +372,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "acceptOffer",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "activeOfferIds",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "buy",
+				"name": "buyCharacter",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -307,44 +394,11 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_tokenId",
+						"name": "_listingId",
 						"type": "uint256"
 					}
 				],
-				"name": "cancel",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "cancelEveryOffer",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_offerId",
-						"type": "uint256"
-					}
-				],
-				"name": "cancelOffer",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_price",
-						"type": "uint256"
-					}
-				],
-				"name": "createOffer",
+				"name": "cancelListing",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -413,123 +467,16 @@
 								"internalType": "bool",
 								"name": "active",
 								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "listingId",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct PunkBytesMarketplace.ListingDetails[]",
 						"name": "",
 						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getEveryOffer",
-				"outputs": [
-					{
-						"internalType": "uint256[]",
-						"name": "offerIds",
-						"type": "uint256[]"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "bidder",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "active",
-								"type": "bool"
-							}
-						],
-						"internalType": "struct PunkBytesMarketplace.Offer[]",
-						"name": "offerDetails",
-						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "getSingleListing",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "seller",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "tokenId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "active",
-								"type": "bool"
-							}
-						],
-						"internalType": "struct PunkBytesMarketplace.Listing",
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_offerId",
-						"type": "uint256"
-					}
-				],
-				"name": "getSingleOffer",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "bidder",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "active",
-								"type": "bool"
-							}
-						],
-						"internalType": "struct PunkBytesMarketplace.Offer",
-						"name": "",
-						"type": "tuple"
 					}
 				],
 				"stateMutability": "view",
@@ -566,51 +513,15 @@
 								"internalType": "bool",
 								"name": "active",
 								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "listingId",
+								"type": "uint256"
 							}
 						],
 						"internalType": "struct PunkBytesMarketplace.ListingDetails[]",
 						"name": "",
-						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_wallet",
-						"type": "address"
-					}
-				],
-				"name": "getWalletOffers",
-				"outputs": [
-					{
-						"internalType": "uint256[]",
-						"name": "offerIds",
-						"type": "uint256[]"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "bidder",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "price",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "active",
-								"type": "bool"
-							}
-						],
-						"internalType": "struct PunkBytesMarketplace.Offer[]",
-						"name": "offerDetails",
 						"type": "tuple[]"
 					}
 				],
@@ -628,25 +539,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					}
-				],
-				"name": "isListed",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
 					},
@@ -656,56 +548,9 @@
 						"type": "uint256"
 					}
 				],
-				"name": "list",
+				"name": "listCharacter",
 				"outputs": [],
 				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "listings",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "seller",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "active",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "nextOfferId",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -716,54 +561,6 @@
 						"internalType": "contract INFTContract",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "offerIdToIndex",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "offers",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "bidder",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "active",
-						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -817,37 +614,8 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "start",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batchSize",
-						"type": "uint256"
-					}
-				],
-				"name": "ownerCancelEveryOffer",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "start",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "batchSize",
-						"type": "uint256"
-					}
-				],
-				"name": "ownerCancelListings",
+				"inputs": [],
+				"name": "ownerCancelEveryListing",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -998,6 +766,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "_listingId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_newPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "updateListing",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "newImplementation",
 						"type": "address"
@@ -1011,54 +797,6 @@
 				"name": "upgradeToAndCall",
 				"outputs": [],
 				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "walletOfferIdToIndex",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "walletToOfferIds",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -1164,41 +902,11 @@
 			},
 			"kind": "dev",
 			"methods": {
-				"acceptOffer(uint256,uint256)": {
-					"params": {
-						"_offerId": "the ID of the offer to accept",
-						"_tokenId": "the NFT token ID to sell"
-					}
-				},
-				"cancelOffer(uint256)": {
-					"params": {
-						"_offerId": "ID of the offer to cancel"
-					}
-				},
 				"constructor": {
 					"custom:oz-upgrades-unsafe-allow": "constructor"
 				},
-				"getActiveListings()": {
-					"returns": {
-						"_0": "an array of ListingDetails for all active listings"
-					}
-				},
-				"getWalletListings(address)": {
-					"params": {
-						"_wallet": "the address of the wallet to query"
-					},
-					"returns": {
-						"_0": "an array of ListingDetails for the wallet's active listings"
-					}
-				},
 				"owner()": {
 					"details": "Returns the address of the current owner."
-				},
-				"ownerCancelEveryOffer(uint256,uint256)": {
-					"params": {
-						"batchSize": "the number of offers to process in that specific batch",
-						"start": "starting index in activeOfferIds to begin cancellation"
-					}
 				},
 				"paused()": {
 					"details": "Returns true if the contract is paused, and false otherwise."
@@ -1221,29 +929,7 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {
-				"acceptOffer(uint256,uint256)": {
-					"notice": "accepts a collection-wide offer for a specific NFT"
-				},
-				"cancelEveryOffer()": {
-					"notice": "Cancels all collection-wide offers made by the caller"
-				},
-				"cancelOffer(uint256)": {
-					"notice": "cancels a specific collection-wide offer"
-				},
-				"getActiveListings()": {
-					"notice": "returns all active listings in the marketplace"
-				},
-				"getWalletListings(address)": {
-					"notice": "returns all active listings for a specific wallet"
-				},
-				"ownerCancelEveryOffer(uint256,uint256)": {
-					"notice": "cancels all active collection-wide offers (owner only)"
-				},
-				"ownerCancelListings(uint256,uint256)": {
-					"notice": "cancels all active listings and returns NFTs from excrow to owners callable only by owner, emits Canceled for each listing and adminCanceledListings"
-				}
-			},
+			"methods": {},
 			"version": 1
 		}
 	},
@@ -1251,7 +937,7 @@
 		"compilationTarget": {
 			"PunkBytesMarketplace.sol": "PunkBytesMarketplace"
 		},
-		"evmVersion": "shanghai",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -1416,11 +1102,11 @@
 			]
 		},
 		"PunkBytesMarketplace.sol": {
-			"keccak256": "0xe40c8f59835641503b82e5c7d710d2037491abbf60a2d1c6f6ac6d46fa04f711",
+			"keccak256": "0x4b587026e67647bdc1076479c8e3c1a658b2c47541eeb2eb01d7608f9f08265f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7803476c6c10ad2f317b953ee6765a53a4c44f4a89fe1cea5e7af7f8da18bc58",
-				"dweb:/ipfs/QmYvkHaWY5WrX9PBVjtutJ9DdD3rMCaXUrhMNU6TwDzEhc"
+				"bzz-raw://60a563cfb72da4138a4cb55a732985e4904b6c7c61a6bdcfeb0367b0da85c8cd",
+				"dweb:/ipfs/QmSDurvpQmLjngePz6GKecFNYYQSryyuB6S267bHofKAN8"
 			]
 		},
 		"interfaces/IClassDetails.sol": {
